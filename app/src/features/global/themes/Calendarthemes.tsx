@@ -1,5 +1,5 @@
-import React, { useContext, useState, useMemo, createContext } from "react";
-import styled, { createGlobalStyle, css } from "styled-components";
+import { useState, useMemo, createContext } from "react";
+import { createGlobalStyle } from "styled-components";
 
 // Replace 'YourEventType' with the actual type of your events.
 
@@ -8,7 +8,6 @@ export const GlobalStyle = createGlobalStyle`
   body {
     font-family: "Source Sans Pro", sans-serif;
     font-size: 12px;
-    /* Add any other global styles here */
   }
 `;
 
@@ -131,94 +130,6 @@ export const tokens = (mode: string) => ({
         }),
 });
 
-// Styled components
-// const StyledButton = styled.button`
-//   padding: 10px 15px;
-//   font-size: 14px;
-//   background-color: ${(props) => (props.primary ? "#141b2d" : "#4cceac")};
-//   color: ${(props) => (props.primary ? "#fff" : "#000")};
-//   border: none;
-//   border-radius: 5px;
-//   cursor: pointer;
-
-//   &:hover {
-//     background-color: ${(props) => (props.primary ? "#080b12" : "#3da58a")};
-//   }
-// `;
-
-// MUI theme settings
-const getThemeSettings = (mode: string) => {
-    const colors = tokens(mode);
-    return {
-        palette: {
-            mode: mode,
-            ...(mode === "dark"
-                ? {
-                    // palette values for dark mode
-                    primary: {
-                        main: colors.primary[500],
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500],
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100],
-                    },
-                    background: {
-                        default: colors.primary[500],
-                    },
-                }
-                : {
-                    // palette values for light mode
-                    primary: {
-                        main: colors.primary[100],
-                    },
-                    secondary: {
-                        main: colors.greenAccent[500],
-                    },
-                    neutral: {
-                        dark: colors.grey[700],
-                        main: colors.grey[500],
-                        light: colors.grey[100],
-                    },
-                    background: {
-                        default: "#fcfcfc",
-                    },
-                }),
-        },
-        typography: {
-            fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-            fontSize: 12,
-            h1: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 40,
-            },
-            h2: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 32,
-            },
-            h3: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 24,
-            },
-            h4: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 20,
-            },
-            h5: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 16,
-            },
-            h6: {
-                fontFamily: ["Source Sans Pro", "sans-serif"].join(","),
-                fontSize: 14,
-            },
-        },
-    };
-};
-
 // Context for color mode
 export const ColorModeContext = createContext({
     toggleColorMode: () => { },
@@ -231,11 +142,10 @@ export const useMode = () => {
     const colorMode = useMemo(
         () => ({
             toggleColorMode: () => setMode((prev) => (prev === "light" ? "dark" : "light")),
-        }),
-        []
+        }),[]
     );
 
-    const theme = useMemo(() => getThemeSettings(mode), [mode]);
+    const theme = useMemo(() => tokens(mode), [mode]);
 
     return [theme, colorMode];
 };
